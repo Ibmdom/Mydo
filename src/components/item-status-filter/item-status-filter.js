@@ -1,40 +1,35 @@
-import React, {Component} from 'react';
+import React from 'react';
 
+const allButton = [
+  {key: 'all', label:'All'},
+  {key: 'active', label: 'Active'},
+  {key: 'done', label: 'Done'}
+];
 
-export default class ItemStatusFilter extends Component {
-  state = {
-    filter: 'All'
-  }
-  classButton(elem, filter, activFilt) {
-    // console.log(elem, filter );
-   if (elem===filter) {
+  function classButton(key, filter) {
+    console.log(key, filter );
+   if (key === filter) {
     return  ('btn btn-info');
    } else {
      return ('btn btn-outline-secondary');
    } 
   }
-
-  onChangeButton = (e) => {
-    const filter = e.target.outerText;
-    this.setState({filter});
-    this.props.activFilt(filter);
-
-  }
-
   
-  render () {
-    const allButton = ['All', 'Active', 'Done'];
-    const {filter} = this.state;
-    let visibleButton = allButton.map(
-      elem => <button type="button" 
-      key = {elem} 
-      className={this.classButton(elem, filter)}
-      onClick = {this.onChangeButton} >{elem}</button>);
+function ItemStatusFilter (props) {
+  const {filter, setFilter} = props;
+  let visibleButton = allButton.map(
+    elem => <button type="button" 
+    key = {elem.key} 
+    className={classButton(elem.key, filter)}
+    onClick = {e => setFilter((e.target.textContent).toLowerCase())} 
+    >{elem.label}</button>
+  );
   
-    return (
-       <div className="btn-group">
-        {visibleButton} 
-      </div>
-      )
-  }
+  return (
+    <div className="btn-group">
+    {visibleButton} 
+    </div>
+    )
 };
+
+export default ItemStatusFilter;

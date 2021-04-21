@@ -21,7 +21,7 @@ class App extends Component  {
       this.createTodoItem('Drink Coffe'),
    ], 
    textFind: '',
-   filterA: 'All'  // All, Active, Done
+   filter: 'all'  // All, Active, Done
   }
 
   createTodoItem(label) {
@@ -66,29 +66,41 @@ class App extends Component  {
     });
   }  
 
-  findElem(todoData, text) {
-    return todoData.filter(el=> el.label.toUpperCase().includes(text.toUpperCase()));
+  findElem(arr, text) {
+    if (text === '') {
+      return arr;
+    }
+    return arr.filter(el=> el.label.toUpperCase().includes(text.toUpperCase()));
+  }
+  
+  filterElem(arr, filter) {
+    switch (filter) {
+      case 'all':
+        return arr;
+      case 'active':
+        return arr.filter((e)=>!e.done);
+      case 'done':
+        return arr.filter((e)=>e.done);
+      default:  
+        return arr;
+    }
   }
 
   changeTextFind = (textFind) => {
    this.setState({textFind}) 
   }  
 
-  setFilter = (filterA) => {
-    this.setState({filterA})
+  setFilter = (filter) => {
+    this.setState({filter})
   }
 
   render () {
-  const {todoData, textFind, filterA} = this.state;
-  const visibleDo = (textFind !== '') ? this.findElem(todoData, textFind) : todoData;
-  const visibleFil = visibleDo.filter(el => {
-    if (filterA === 'All') {return el}
-    if (filterA === 'Active') {return !el.done}
-    if (filterA === 'Done') {return el.done}
-  })
-  const stod = [todoData.length-todoData.filter((el)=>el.done).length,
-    todoData.filter((el)=>el.done).length
-  ];
+    const {todoData, textFind, filter} = this.state;
+    const visibleDo = this.filterElem(this.findElem(todoData, textFind), filter);
+    const stod = [
+      todoData.length-todoData.filter((el)=>el.done).length,
+      todoData.filter((el)=>el.done).length
+    ];
   
 
   return (
@@ -96,10 +108,10 @@ class App extends Component  {
     <AppHeader stodo = {stod} /> 
     < div className="top-panel d-flex">
        <SearchPanel findIt = {this.changeTextFind }/>
-       <ItemStatusFilter activFilt = {this.setFilter}/>
+       <ItemStatusFilter filter = {filter} setFilter = {this.setFilter}/>
     </div>
     <TodoList
-       todos = {visibleFil}
+       todos = {visibleDo}
        onDeleted = { this.onDelete }
        onToggleImportant = {this.onToggleImportant}
        onToggleDone = {this.onToggleDone}
