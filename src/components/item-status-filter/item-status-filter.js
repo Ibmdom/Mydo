@@ -18,11 +18,11 @@ const allButton = [
 function ItemStatusFilter (props) {
   const {filter, setFilter} = props;
   let visibleButton = allButton.map(
-    elem => <button type="button" 
-    key = {elem.key} 
-    className={classButton(elem.key, filter)}
-    onClick = {e => setFilter((e.target.textContent).toLowerCase())} 
-    >{elem.label}</button>
+    ({key, label}) => <button type="button" 
+    key = {key} 
+    className={classButton(key, filter)}
+    onClick = {() => setFilter(key)} 
+    >{label}</button>
   );
   
   return (
