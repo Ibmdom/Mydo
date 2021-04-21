@@ -21,7 +21,7 @@ class App extends Component  {
       this.createTodoItem('Drink Coffe'),
    ], 
    textFind: '',
-   filter: 'all'  // All, Active, Done
+   filter: 'all'   // All, Active, Done
   }
 
   createTodoItem(label) {
