@@ -70,7 +70,7 @@ class App extends Component  {
     if (text === '') {
       return arr;
     }
-    return arr.filter(el=> el.label.toUpperCase().includes(text.toUpperCase()));
+    return arr.filter(el=> el.label.toUpperCase().includes(el.label.toUpperCase()));
   }
   
   filterElem(arr, filter) {
