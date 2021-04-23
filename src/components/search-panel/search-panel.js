@@ -12,4 +12,5 @@ const SearchPanel = (props) => {
     // </div>
     )
 };
+
 export default SearchPanel;
